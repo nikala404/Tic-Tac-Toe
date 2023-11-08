@@ -1,0 +1,227 @@
+body {
+  background-color: #192a32;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  font-family: "Open Sans";
+}
+h1 {
+  font-size: 15px;
+  margin-bottom: 0px;
+  margin-top: 0px;
+  color: #185a5e;
+  font-weight: bolder;
+}
+
+.parentcontainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 0.18fr);
+  gap: 15px 15px;
+  width: 20%;
+  height: 60vh;
+  border-radius: 10px;
+  position: relative;
+  padding-top: 20px;
+  background-color: #192a32;
+  color: #fff;
+  /* box-shadow: 5px 5px 5px 5px rgb(44, 39, 39); */
+}
+.new-div {
+  position: absolute;
+  top: 3%;
+  left: 5%;
+  background-color: #192a32;
+  color: #2cc6be;
+  font-weight: bolder;
+  font-size: 30px;
+  width: 0%;
+  text-align: right;
+  text-shadow: #0459ad;
+}
+.new-div1 {
+  position: absolute;
+  top: 2.8%;
+  left: 15%;
+  background-color: #192a32;
+  font-size: 200%;
+  box-sizing: border-box;
+  color: #f2b139;
+  font-weight: bolder;
+  width: 0%;
+  text-align: left;
+
+  padding: 0%;
+}
+.turn-div {
+  position: absolute;
+  top: 3%;
+  left: 29%;
+  background-color: #1f3540;
+  color: #98aeb9;
+  font-weight: bold;
+  font-size: 30px;
+  box-shadow: 4px 4px 4px 0px rgb(7, 5, 5);
+  border-radius: 10px;
+  width: 40%;
+  text-align: center;
+}
+.reset-div {
+  position: absolute;
+  top: 5%;
+  left: 85%;
+  background-color: #a8bec9;
+  box-shadow: 3px 6px 6px 0px rgb(7, 5, 5);
+  border-radius: 10px;
+  height: 7%;
+  width: 10%;
+  text-align: center;
+}
+.scoreX {
+  position: absolute;
+  top: 75%;
+  left: 3%;
+  background-color: #31c4be;
+  box-shadow: 3px 6px 6px 0px rgb(7, 5, 5);
+  border-radius: 10px;
+  height: 9%;
+  width: 27%;
+  text-align: center;
+  color: #0e313c;
+  font-weight: bolder;
+}
+.TIES {
+  position: absolute;
+  top: 75%;
+  left: 37%;
+  background-color: #a8bec9;
+  box-shadow: 3px 6px 6px 0px rgb(7, 5, 5);
+  border-radius: 10px;
+  height: 9%;
+  width: 27%;
+  text-align: center;
+  color: #0e313c;
+  font-weight: bolder;
+}
+.scoreO {
+  position: absolute;
+  top: 75%;
+  left: 70.5%;
+  background-color: #f2b237;
+  box-shadow: 3px 6px 6px 0px rgb(7, 5, 5);
+  border-radius: 10px;
+  height: 9%;
+  width: 27%;
+  text-align: center;
+  color: #0e313c;
+  font-weight: bolder;
+}
+.left_column,
+.mid_column,
+.right_column {
+  height: 10vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #1f3540;
+  border-radius: 10px;
+  box-shadow: 5px 5px 5px 0px rgb(0, 0, 0);
+  color: white;
+}
+.mid_column {
+  background-color: #1f3540;
+  color: white;
+}
+.right_column {
+  background-color: #1f3540;
+  color: white;
+}
+.left_column,
+.mid_column,
+.right_column {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.first_row {
+  margin-top: 70px;
+  border-top: 0px;
+}
+
+.third_row {
+  border-bottom: 0px;
+}
+.left_column {
+  margin-left: 10px;
+  border-left: 0px;
+}
+.right_column {
+  margin-right: 10px;
+  border-right: 0px;
+}
+button {
+  background-color: #a8bec9;
+  color: #040505;
+  border: 0px;
+  width: 15%;
+  margin-top: 10px;
+  margin-right: 15px;
+  font-weight: bolder;
+}
+
+@media (max-width: 1440px) {
+  .parentcontainer {
+    width: 26%;
+    height: 60vh; /* Adjusted height for screens up to 1440px wide */
+  }
+}
+
+@media (max-width: 1024px) {
+  .parentcontainer {
+    width: 35%;
+    height: 55vh; /* Adjusted height for screens up to 1024px wide */
+  }
+  .reset-div {
+    top: 5%;
+    text-align: center;
+  }
+  .scoreX,
+  .TIES,
+  .scoreO {
+    top: 83%;
+  }
+}
+
+@media (max-width: 768px) {
+  .parentcontainer {
+    width: 40%;
+    height: 55vh; /* Adjusted height for screens up to 768px wide */
+  }
+}
+
+@media (max-width: 480px) {
+  .parentcontainer {
+    width: 80%;
+    height: 55vh; /* Adjusted height for screens up to 480px wide */
+  }
+
+  /* You can similarly adjust height values for other elements */
+}
+@media (max-width: 320px) {
+  .parentcontainer {
+    width: 80%;
+    height: 55vh; /* Adjusted height for screens up to 320px wide */
+  }
+
+  /* You can similarly adjust height values for other elements */
+}
+@media (max-width: 240px) {
+  .parentcontainer {
+    width: 80%;
+    height: 55vh; /* Adjusted height for screens up to 280px wide */
+  }
+
+  /* You can similarly adjust height values for other elements */
+}
