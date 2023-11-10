@@ -5,7 +5,7 @@ body {
   align-items: center;
   height: 100vh;
   margin: 0;
-  font-family: "Open Sans";
+  font-family: 'Open Sans';
 }
 h1 {
   font-size: 15px;
@@ -118,6 +118,9 @@ h1 {
   color: #0e313c;
   font-weight: bolder;
 }
+.boxes {
+  color: #2cc6be;
+}
 .left_column,
 .mid_column,
 .right_column {
@@ -128,22 +131,15 @@ h1 {
   background-color: #1f3540;
   border-radius: 10px;
   box-shadow: 5px 5px 5px 0px rgb(0, 0, 0);
-  color: white;
+  color: #2cc6be;
+  font-weight: bolder;
+  font-size: 35px;
 }
 .mid_column {
   background-color: #1f3540;
-  color: white;
 }
 .right_column {
   background-color: #1f3540;
-  color: white;
-}
-.left_column,
-.mid_column,
-.right_column {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 .first_row {
   margin-top: 70px;
