@@ -1,4 +1,5 @@
 'use strict';
+// Selecting DOM elements
 const parent = document.querySelector('.parentcontainer');
 const xSymbol = document.querySelector('.new-div');
 const oSymbol = document.querySelector('.new-div1');
@@ -16,13 +17,12 @@ const box8 = document.querySelector('.boxes8');
 const box9 = document.querySelector('.boxes9');
 const allBox = document.querySelectorAll('.boxes');
 const tie = document.querySelector('.TIES');
-const allBoxes = document.querySelectorAll('.boxes');
 const scoreO = document.querySelector('.score1');
 const scoreX = document.querySelector('.score2');
 const scoreTie = document.querySelector('.score3');
 const winningWindow = document.querySelector('.result');
 const winner = document.querySelector('.result-h1-2');
-const turnArray = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+let turnArray = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 const winningCombinations = [
   [box1, box2, box3],
   [box4, box5, box6],
@@ -33,26 +33,33 @@ const winningCombinations = [
   [box1, box5, box9],
   [box3, box5, box7],
 ];
+const boxes = [box1, box2, box3, box4, box5, box6, box7, box8, box9];
 
-//text changing and computer Logic
+// Event listener for each box
 allBox.forEach(function (changeText) {
   changeText.addEventListener('click', function () {
     // Check if the box has already been selected
     if (changeText.textContent === 'X' || changeText.textContent === 'O') {
-      return;
+      return; // Do nothing if the box is already selected
     }
 
+    // Computer's turn logic
     let cpuTurn = Math.round(Math.random(turnArray) * turnArray.length);
     const boxNumber =
       Array.from(document.querySelectorAll('.boxes')).indexOf(changeText) + 1;
+
+    // Remove the selected box from the available turns
     if (turnArray.find(num => num === boxNumber)) {
       turnArray.splice(turnArray.indexOf(boxNumber), 1);
     }
+
+    // Check if the selected turn is available
     if (turnArray.includes(cpuTurn)) {
       allBox[cpuTurn - 1].textContent = 'O';
       allBox[cpuTurn - 1].style.color = '#f2b237';
       turnArray.splice(turnArray.indexOf(cpuTurn), 1);
     } else if (turnArray.includes(cpuTurn) === false) {
+      // If not, find the first available turn and use it
       let random = 0;
       while (random < 10) {
         random += 1;
@@ -64,57 +71,51 @@ allBox.forEach(function (changeText) {
         }
       }
     }
+
+    // Set X or O based on player's turn
     if (changeText.textContent === 'X' || changeText.textContent === 'O') {
       if (changeText.textContent === 'X') {
+        // If X is already present, keep it as X
         changeText.textContent = 'X';
       } else if (changeText.textContent === 'O') {
+        // If O is already present, keep it as O and change color
         changeText.textContent = 'O';
         changeText.style.color = '#f2b237';
       }
     } else {
+      // Set X if the box is empty
       changeText.textContent = 'X';
     }
+
     // Check if the game is over
     for (const combination of winningCombinations) {
       const [a, b, c] = combination;
+
+      // Check for X win
       if (
         a.textContent === 'X' &&
         b.textContent === 'X' &&
         c.textContent === 'X'
       ) {
+        // Update scores and show winning message
         scoreX.textContent = Number(scoreX.textContent) + 1;
-        winningWindow.style.display = 'block';
-        winner.textContent = 'X';
-        winner.style.color = '#00fff2';
-        parent.style.filter = 'blur(5px)';
-        parent.style.webkitFilter = 'blur(8px)';
-        setTimeout(function () {
-          winningWindow.style.display = 'none';
-          parent.style.filter = 'blur(0px)';
-          parent.style.webkitFilter = 'blur(0px)';
-        }, 3000);
-
+        showWinningMessage('X', '#00fff2');
         break;
       }
+
+      // Check for O win
       if (
         a.textContent === 'O' &&
         b.textContent === 'O' &&
         c.textContent === 'O'
       ) {
+        // Update scores and show winning message
         scoreO.textContent = Number(scoreO.textContent) + 1;
-
-        winningWindow.style.display = 'block';
-        winner.textContent = 'O';
-        winner.style.color = '#f2b237';
-        parent.style.filter = 'blur(5px)';
-        parent.style.webkitFilter = 'blur(8px)';
-        setTimeout(function () {
-          winningWindow.style.display = 'none';
-          parent.style.filter = 'blur(0px)';
-          parent.style.webkitFilter = 'blur(0px)';
-        }, 3000);
+        showWinningMessage('O', '#f2b237');
         break;
       }
+
+      // Check for a tie
       if (
         box1.textContent !== '' &&
         box2.textContent !== '' &&
@@ -126,25 +127,37 @@ allBox.forEach(function (changeText) {
         box8.textContent !== '' &&
         box9.textContent !== ''
       ) {
+        // Update scores and show tie message
         scoreTie.textContent = Number(scoreTie.textContent) + 1;
-        winningWindow.style.display = 'block';
-        document.querySelector('.result-h1').textContent = '';
-        winner.textContent = 'TIE';
-        winner.style.color = '#a8bec9';
-        parent.style.filter = 'blur(5px)';
-        parent.style.webkitFilter = 'blur(8px)';
-        setTimeout(function () {
-          winningWindow.style.display = 'none';
-          parent.style.filter = 'blur(0px)';
-          parent.style.webkitFilter = 'blur(0px)';
-        }, 3000);
+        showWinningMessage('TIE', '#a8bec9');
         break;
       }
     }
   });
 });
 
-//reset
+// Reset button event listener
 resetContainer.addEventListener('click', function () {
+  // Reload the page to reset the game
   window.location.reload();
 });
+
+// Function to display winning message
+function showWinningMessage(player, color) {
+  winningWindow.style.display = 'block';
+  winner.textContent = player;
+  winner.style.color = color;
+  parent.style.filter = 'blur(5px)';
+  parent.style.webkitFilter = 'blur(8px)';
+  setTimeout(function () {
+    winningWindow.style.display = 'none';
+    parent.style.filter = 'blur(0px)';
+    parent.style.webkitFilter = 'blur(0px)';
+    // Clear the boxes and reset turnArray
+    boxes.forEach(box => {
+      box.textContent = '';
+      box.style.color = ''; // Reset the text color
+    });
+    turnArray = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  }, 3000);
+}
