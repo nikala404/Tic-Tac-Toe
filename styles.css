@@ -27,7 +27,8 @@ h1 {
   padding-top: 20px;
   background-color: #192a32;
   color: #fff;
-  /* box-shadow: 5px 5px 5px 5px rgb(44, 39, 39); */
+  filter: blur(0px);
+  -webkit-filter: blur(0px);
 }
 .new-div {
   position: absolute;
@@ -50,10 +51,7 @@ h1 {
   box-sizing: border-box;
   color: #f2b139;
   font-weight: bolder;
-  width: 0%;
   text-align: left;
-
-  padding: 0%;
 }
 .turn-div {
   position: absolute;
@@ -157,6 +155,41 @@ h1 {
   margin-right: 10px;
   border-right: 0px;
 }
+.reset-div {
+  top: 5%;
+  text-align: center;
+}
+.scoreX,
+.TIES,
+.scoreO {
+  top: 83%;
+}
+
+.result {
+  position: absolute;
+  top: 48.6%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.4);
+  font-weight: bolder;
+  width: 40%;
+  height: 56vh;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 5px 5px 5px 0px rgb(0, 0, 0);
+  display: none;
+}
+.result-h1 {
+  font-size: 60px;
+  margin-top: 20%;
+  color: #ff0000;
+  font-weight: bolder;
+}
+.result-h1-2 {
+  font-size: 60px;
+  color: #2cc6be;
+  font-weight: bolder;
+}
 button {
   background-color: #a8bec9;
   color: #040505;
@@ -166,7 +199,6 @@ button {
   margin-right: 15px;
   font-weight: bolder;
 }
-
 @media (max-width: 1440px) {
   .parentcontainer {
     width: 26%;
@@ -179,45 +211,48 @@ button {
     width: 35%;
     height: 55vh; /* Adjusted height for screens up to 1024px wide */
   }
-  .reset-div {
-    top: 5%;
-    text-align: center;
-  }
-  .scoreX,
-  .TIES,
-  .scoreO {
-    top: 83%;
-  }
-}
-
-@media (max-width: 768px) {
-  .parentcontainer {
-    width: 40%;
-    height: 55vh; /* Adjusted height for screens up to 768px wide */
-  }
-}
-
-@media (max-width: 480px) {
-  .parentcontainer {
-    width: 80%;
-    height: 55vh; /* Adjusted height for screens up to 480px wide */
+  @media (max-width: 768px) {
+    .parentcontainer {
+      width: 40%;
+      height: 55vh; /* Adjusted height for screens up to 768px wide */
+    }
+    .result {
+      width: 50%;
+      height: 55vh; /* Adjusted height for screens up to 768px wide */
+    }
+    .result-h1 {
+      font-size: 40px;
+      margin-top: 50%;
+      color: #ff0000;
+      font-weight: bolder;
+    }
+    .result-h1-2 {
+      font-size: 40px;
+      color: #2cc6be;
+      font-weight: bolder;
+    }
   }
 
-  /* You can similarly adjust height values for other elements */
-}
-@media (max-width: 320px) {
-  .parentcontainer {
-    width: 80%;
-    height: 55vh; /* Adjusted height for screens up to 320px wide */
+  @media (max-width: 480px) {
+    .parentcontainer {
+      width: 80%;
+      height: 55vh; /* Adjusted height for screens up to 480px wide */
+    }
+    .result {
+      width: 80%;
+      height: 55vh; /* Adjusted height for screens up to 480px wide */
+    }
   }
-
-  /* You can similarly adjust height values for other elements */
-}
-@media (max-width: 240px) {
-  .parentcontainer {
-    width: 80%;
-    height: 55vh; /* Adjusted height for screens up to 280px wide */
+  @media (max-width: 320px) {
+    .parentcontainer {
+      width: 80%;
+      height: 55vh; /* Adjusted height for screens up to 320px wide */
+    }
   }
-
-  /* You can similarly adjust height values for other elements */
+  @media (max-width: 240px) {
+    .parentcontainer {
+      width: 80%;
+      height: 55vh; /* Adjusted height for screens up to 280px wide */
+    }
+  }
 }
