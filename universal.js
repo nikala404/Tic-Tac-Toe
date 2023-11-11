@@ -23,6 +23,8 @@ const scoreTie = document.querySelector('.score3');
 const winningWindow = document.querySelector('.result');
 const winner = document.querySelector('.result-h1-2');
 let turnArray = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+let playerSymbol = 'X'; // Default player symbol
+let computerSymbol = 'O'; // Default computer symbol
 const winningCombinations = [
   [box1, box2, box3],
   [box4, box5, box6],
@@ -35,8 +37,28 @@ const winningCombinations = [
 ];
 const boxes = [box1, box2, box3, box4, box5, box6, box7, box8, box9];
 
+// Event listener for X symbol
+xSymbol.addEventListener('click', function () {
+  playerSymbol = 'X';
+  computerSymbol = 'O';
+  turnContainer.textContent = 'You: X';
+  xSymbol.style.color = '#2cc6be';
+  oSymbol.style.color = '#a8bec9';
+});
+
+// Event listener for O symbol
+oSymbol.addEventListener('click', function () {
+  playerSymbol = 'O';
+  computerSymbol = 'X';
+  turnContainer.textContent = 'You: O';
+  xSymbol.style.color = '#a8bec9';
+  oSymbol.style.color = '#2cc6be';
+});
+
 // Event listener for each box
 allBox.forEach(function (changeText) {
+  xSymbol.style.color = '#2cc6be';
+  oSymbol.style.color = '#a8bec9';
   changeText.addEventListener('click', function () {
     // Check if the box has already been selected
     if (changeText.textContent === 'X' || changeText.textContent === 'O') {
@@ -55,16 +77,16 @@ allBox.forEach(function (changeText) {
 
     // Check if the selected turn is available
     if (turnArray.includes(cpuTurn)) {
-      allBox[cpuTurn - 1].textContent = 'O';
+      allBox[cpuTurn - 1].textContent = computerSymbol;
       allBox[cpuTurn - 1].style.color = '#f2b237';
       turnArray.splice(turnArray.indexOf(cpuTurn), 1);
     } else if (turnArray.includes(cpuTurn) === false) {
-      // If not, find the first available turn and use it
+      // If not find the first available turn and use it
       let random = 0;
       while (random < 10) {
         random += 1;
         if (turnArray.includes(random) === true) {
-          allBox[random - 1].textContent = 'O';
+          allBox[random - 1].textContent = computerSymbol;
           allBox[random - 1].style.color = '#f2b237';
           turnArray.splice(turnArray.indexOf(random), 1);
           break;
@@ -83,36 +105,61 @@ allBox.forEach(function (changeText) {
         changeText.style.color = '#f2b237';
       }
     } else {
-      // Set X if the box is empty
-      changeText.textContent = 'X';
+      // Set X or O based on player's symbol
+      changeText.textContent = playerSymbol;
     }
 
+    // Check if the game is over
     // Check if the game is over
     for (const combination of winningCombinations) {
       const [a, b, c] = combination;
 
-      // Check for X win
+      // Check for player win
       if (
-        a.textContent === 'X' &&
-        b.textContent === 'X' &&
-        c.textContent === 'X'
+        a.textContent === playerSymbol &&
+        b.textContent === playerSymbol &&
+        c.textContent === playerSymbol
       ) {
         // Update scores and show winning message
-        scoreX.textContent = Number(scoreX.textContent) + 1;
-        showWinningMessage('X', '#00fff2');
-        break;
+        if (playerSymbol === 'X') {
+          scoreX.textContent = Number(scoreX.textContent) + 1;
+        } else {
+          scoreO.textContent = Number(scoreO.textContent) + 1;
+        }
+        showWinningMessage(playerSymbol, '#00fff2');
+        setTimeout(function () {
+          // Clear the boxes and reset turnArray after a delay
+          boxes.forEach(box => {
+            box.textContent = '';
+            box.style.color = ''; // Reset the text color
+          });
+          turnArray = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+        }, 3000);
+        break; // Exit the loop after showing the winning message
       }
 
-      // Check for O win
+      // Check for computer win
       if (
-        a.textContent === 'O' &&
-        b.textContent === 'O' &&
-        c.textContent === 'O'
+        a.textContent === computerSymbol &&
+        b.textContent === computerSymbol &&
+        c.textContent === computerSymbol
       ) {
         // Update scores and show winning message
-        scoreO.textContent = Number(scoreO.textContent) + 1;
-        showWinningMessage('O', '#f2b237');
-        break;
+        if (computerSymbol === 'X') {
+          scoreX.textContent = Number(scoreX.textContent) + 1;
+        } else {
+          scoreO.textContent = Number(scoreO.textContent) + 1;
+        }
+        showWinningMessage(computerSymbol, '#f2b237');
+        setTimeout(function () {
+          // Clear the boxes and reset turnArray after a delay
+          boxes.forEach(box => {
+            box.textContent = '';
+            box.style.color = ''; // Reset the text color
+          });
+          turnArray = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+        }, 3000);
+        break; // Exit the loop after showing the winning message
       }
 
       // Check for a tie
@@ -130,7 +177,16 @@ allBox.forEach(function (changeText) {
         // Update scores and show tie message
         scoreTie.textContent = Number(scoreTie.textContent) + 1;
         showWinningMessage('TIE', '#a8bec9');
-        break;
+        setTimeout(function () {
+          // Clear the boxes and reset turnArray after a delay
+          boxes.forEach(box => {
+            box.textContent = '';
+            box.style.color = '';
+            // Reset the text color
+          });
+          turnArray = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+        }, 3000);
+        break; // Exit the loop after showing the tie message
       }
     }
   });
@@ -153,11 +209,5 @@ function showWinningMessage(player, color) {
     winningWindow.style.display = 'none';
     parent.style.filter = 'blur(0px)';
     parent.style.webkitFilter = 'blur(0px)';
-    // Clear the boxes and reset turnArray
-    boxes.forEach(box => {
-      box.textContent = '';
-      box.style.color = ''; // Reset the text color
-    });
-    turnArray = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   }, 3000);
 }
