@@ -39,7 +39,6 @@ const boxes = [box1, box2, box3, box4, box5, box6, box7, box8, box9];
 
 // Event listener for X symbol
 xSymbol.addEventListener('click', function () {
-  // window.location.reload(); // Reload the page to reset the game
   scoreO.textContent = 0;
   scoreX.textContent = 0;
   scoreTie.textContent = 0;
