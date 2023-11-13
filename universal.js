@@ -5,7 +5,6 @@ const xSymbol = document.querySelector('.new-div');
 const oSymbol = document.querySelector('.new-div1');
 const turnContainer = document.querySelector('.turn-div');
 const resetContainer = document.querySelector('.reset-div');
-const resetButton = document.getElementsByTagName('button');
 const box1 = document.querySelector('.boxes1');
 const box2 = document.querySelector('.boxes2');
 const box3 = document.querySelector('.boxes3');
@@ -16,7 +15,6 @@ const box7 = document.querySelector('.boxes7');
 const box8 = document.querySelector('.boxes8');
 const box9 = document.querySelector('.boxes9');
 const allBox = document.querySelectorAll('.boxes');
-const tie = document.querySelector('.TIES');
 const scoreO = document.querySelector('.score1');
 const scoreX = document.querySelector('.score2');
 const scoreTie = document.querySelector('.score3');
@@ -36,6 +34,7 @@ const winningCombinations = [
   [box3, box5, box7],
 ];
 const boxes = [box1, box2, box3, box4, box5, box6, box7, box8, box9];
+let gameEnded = false; // to track if the game has ended
 
 // Event listener for X symbol
 xSymbol.addEventListener('click', function () {
@@ -63,9 +62,12 @@ oSymbol.addEventListener('click', function () {
 
 // Event listener for each box
 allBox.forEach(function (changeText) {
-  xSymbol.style.color = '#2cc6be';
-  oSymbol.style.color = '#a8bec9';
   changeText.addEventListener('click', function () {
+    // Check if the game has ended
+    if (gameEnded) {
+      return;
+    }
+
     // Check if the box has already been selected
     if (changeText.textContent === 'X' || changeText.textContent === 'O') {
       return; // Do nothing if the box is already selected
@@ -75,6 +77,7 @@ allBox.forEach(function (changeText) {
     let cpuTurn = Math.round(Math.random(turnArray) * turnArray.length);
     const boxNumber =
       Array.from(document.querySelectorAll('.boxes')).indexOf(changeText) + 1;
+    let random = 0;
 
     // Remove the selected box from the available turns
     if (turnArray.find(num => num === boxNumber)) {
@@ -87,8 +90,8 @@ allBox.forEach(function (changeText) {
       allBox[cpuTurn - 1].style.color = '#f2b237';
       turnArray.splice(turnArray.indexOf(cpuTurn), 1);
     } else if (turnArray.includes(cpuTurn) === false) {
-      // If not find the first available turn and use it
-      let random = 0;
+      random = 0;
+      // If not, find the first available turn and use it
       while (random < 10) {
         random += 1;
         if (turnArray.includes(random) === true) {
@@ -116,7 +119,9 @@ allBox.forEach(function (changeText) {
     }
 
     // Check if the game is over
-    // Check if the game is over
+    let playerWon = false;
+    let computerWon = false;
+
     for (const combination of winningCombinations) {
       const [a, b, c] = combination;
 
@@ -126,22 +131,11 @@ allBox.forEach(function (changeText) {
         b.textContent === playerSymbol &&
         c.textContent === playerSymbol
       ) {
-        // Update scores and show winning message
-        if (playerSymbol === 'X') {
-          scoreX.textContent = Number(scoreX.textContent) + 1;
-        } else {
-          scoreO.textContent = Number(scoreO.textContent) + 1;
+        playerWon = true;
+        if (playerWon && turnArray.length > 1) {
+          break;
         }
-        showWinningMessage(playerSymbol, '#00fff2');
-        setTimeout(function () {
-          // Clear the boxes and reset turnArray after a delay
-          boxes.forEach(box => {
-            box.textContent = '';
-            box.style.color = ''; // Reset the text color
-          });
-          turnArray = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-        }, 3000);
-        break; // Exit the loop after showing the winning message
+        break;
       }
 
       // Check for computer win
@@ -150,50 +144,40 @@ allBox.forEach(function (changeText) {
         b.textContent === computerSymbol &&
         c.textContent === computerSymbol
       ) {
-        // Update scores and show winning message
-        if (computerSymbol === 'X') {
-          scoreX.textContent = Number(scoreX.textContent) + 1;
+        computerWon = true;
+        if (playerWon) {
+          break;
         } else {
-          scoreO.textContent = Number(scoreO.textContent) + 1;
+          computerWon = true;
         }
-        showWinningMessage(computerSymbol, '#f2b237');
-        setTimeout(function () {
-          // Clear the boxes and reset turnArray after a delay
-          boxes.forEach(box => {
-            box.textContent = '';
-            box.style.color = ''; // Reset the text color
-          });
-          turnArray = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-        }, 3000);
-        break; // Exit the loop after showing the winning message
       }
+    }
 
-      // Check for a tie
-      if (
-        box1.textContent !== '' &&
-        box2.textContent !== '' &&
-        box3.textContent !== '' &&
-        box4.textContent !== '' &&
-        box5.textContent !== '' &&
-        box6.textContent !== '' &&
-        box7.textContent !== '' &&
-        box8.textContent !== '' &&
-        box9.textContent !== ''
-      ) {
-        // Update scores and show tie message
+    // Check if the game is over
+    if (playerWon || computerWon || isTie()) {
+      gameEnded = true; // Set the game as ended
+
+      // Update scores and show winning message
+      if (playerWon) {
+        scoreX.textContent = Number(scoreX.textContent) + 1;
+        showWinningMessage(playerSymbol, '#00fff2');
+      } else if (computerWon) {
+        scoreO.textContent = Number(scoreO.textContent) + 1;
+        showWinningMessage(computerSymbol, '#f2b237');
+      } else {
         scoreTie.textContent = Number(scoreTie.textContent) + 1;
         showWinningMessage('TIE', '#a8bec9');
-        setTimeout(function () {
-          // Clear the boxes and reset turnArray after a delay
-          boxes.forEach(box => {
-            box.textContent = '';
-            box.style.color = '';
-            // Reset the text color
-          });
-          turnArray = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-        }, 3000);
-        break; // Exit the loop after showing the tie message
       }
+
+      setTimeout(function () {
+        // Clear the boxes and reset turnArray after a delay
+        boxes.forEach(box => {
+          box.textContent = '';
+          box.style.color = ''; // Reset the text color
+        });
+        turnArray = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+        gameEnded = false; // Reset the game state
+      }, 3000);
     }
   });
 });
@@ -203,6 +187,21 @@ resetContainer.addEventListener('click', function () {
   // Reload the page to reset the game
   window.location.reload();
 });
+
+// Function to check if the game is a tie
+function isTie() {
+  return (
+    box1.textContent !== '' &&
+    box2.textContent !== '' &&
+    box3.textContent !== '' &&
+    box4.textContent !== '' &&
+    box5.textContent !== '' &&
+    box6.textContent !== '' &&
+    box7.textContent !== '' &&
+    box8.textContent !== '' &&
+    box9.textContent !== ''
+  );
+}
 
 // Function to display winning message
 function showWinningMessage(player, color) {
